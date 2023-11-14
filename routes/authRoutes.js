@@ -9,6 +9,8 @@ router.get('/', (req, res) => {
 
 router.post('/register', catchMiddleware(authControllers.register));
 router.post('/login', catchMiddleware(authControllers.login));
+router.get('/verify-account', catchMiddleware(authControllers.verifyAccount));
+
 
 
 

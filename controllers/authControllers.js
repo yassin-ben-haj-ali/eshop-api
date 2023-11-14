@@ -9,8 +9,13 @@ const login = async (req, res) => {
     const user = await AuthService.login({ ...req.body });
     return res.status(200).json(user);
 };
+const verifyAccount = async (req, res) => {
+    const user = await AuthService.verifyAccount(req.query.token);
+    return res.status(200).json(user);
+};
 
 module.exports = {
     register,
     login,
+    verifyAccount
 };

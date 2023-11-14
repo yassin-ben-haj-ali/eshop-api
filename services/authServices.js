@@ -18,8 +18,8 @@ const register = async (body) => {
         process.env.TOKEN_PASSWORD,
         { expiresIn: '1d' },
     );
-    await emailService.sendEmailVerifyAccount({ email: body.email, token });
-    return user;
+    await emailService.sendEmailVerifyAccount(token)
+    return { user, token };
 };
 
 
@@ -28,14 +28,33 @@ const login = async ({ email, password }) => {
     if (!user) throw new AuthorizationError();
     const checkPassword = await bcrypt.compare(password, user.password);
     if (!checkPassword) throw new AuthorizationError();
-    if (!user.emailVerifiedAt) throw new AuthorizationError('EMAIL_NOT_VERFIED');
-    return user;
+    const token = jwt.sign(
+        {
+            sub: user._id,
+        },
+        process.env.TOKEN_PASSWORD
+    );
+    return { user, token };
+};
+
+
+const verifyAccount = async (token) => {
+    if (!token) throw new BadRequestError();
+    const { sub, exp } = jwt.verify(token, process.env.TOKEN_PASSWORD);
+    const user = await UserModel.findById(sub);
+    if (!user) throw new BadRequestError();
+    const currentTimestamp = Math.floor(Date.now() / 1000);
+    if (exp < currentTimestamp) throw new BadRequestError('Token has expired');
+    user.emailVerifiedAt = new Date();
+    await user.save();
+    return { message: 'Success' };
 };
 
 
 module.exports = {
     register,
-    login
+    login,
+    verifyAccount
 };
 
 
