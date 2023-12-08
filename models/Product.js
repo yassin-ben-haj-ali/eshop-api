@@ -20,10 +20,7 @@ const ProductSchema = new Schema({
         type: String,
         required: true,
     },
-    gallery: {
-        type: [String],
-        required: false
-    },
+    gallery: [{ path: String }],
     userId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

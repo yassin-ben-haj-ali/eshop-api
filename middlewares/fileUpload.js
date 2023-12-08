@@ -39,5 +39,10 @@ const configureUpload = (destinationFolder) => {
 
 
 const singleUpload = (folder, attribute) => configureUpload(folder).single(attribute);
+const multipleUpload = (folder) => configureUpload(folder).array('files',5);
 
-module.exports = singleUpload;
+
+module.exports = {
+    singleUpload,
+    multipleUpload
+};
