@@ -22,7 +22,7 @@ const ProductSchema = new Schema({
     },
     gallery: {
         type: [String],
-        required: true
+        required: false
     },
     userId: {
         type: mongoose.Schema.Types.ObjectId,

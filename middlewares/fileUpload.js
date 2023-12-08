@@ -18,10 +18,10 @@ const ensureFolderExists = (folderPath) => {
 const configureUpload = (destinationFolder) => {
     try {
         const absolutePath = ensureFolderExists(destinationFolder);
+        console.log("absolutePath");
         const storage = multer.diskStorage({
-
             destination(req, file, cb) {
-                cb(null, `.${absolutePath}`);
+                cb(null, `${absolutePath}`);
             },
             filename(req, file, cb) {
                 const extension = path.extname(file.originalname);
