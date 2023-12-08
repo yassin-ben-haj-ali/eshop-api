@@ -26,6 +26,11 @@ const ProductSchema = new Schema({
         ref: 'User',
         required: true,
     },
+    subcategoryId:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Subcategory',
+        required: true,
+    }
 }, {
     timestamps: true
 })

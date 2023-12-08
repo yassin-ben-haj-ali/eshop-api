@@ -1,6 +1,5 @@
 const productService = require('../services/productServices');
 const createProduct = async (req, res) => {
-    console.log(req.files);
     const product = await productService.createProduct({ ...req.body, userId: req.user.id, photo: req.files[0].path, gallery: req.files.map((photo) => ({ path: photo.path })) });
     return res.status(200).json(product);
 };
